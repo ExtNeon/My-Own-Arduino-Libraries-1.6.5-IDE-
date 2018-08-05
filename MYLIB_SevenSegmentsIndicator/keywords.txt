@@ -1,0 +1,54 @@
+########################################
+# Syntax Coloring Map For Test#
+#######################################
+#######################################
+# Datatypes (KEYWORD1) #
+#######################################
+SevenSegmentsIndicator	KEYWORD1
+#######################################
+# Methods and Functions (KEYWORD2) #
+#######################################
+refreshNext 	KEYWORD2
+print	KEYWORD2
+setPowerState	KEYWORD2
+getPowerState	KEYWORD2
+stopRefreshing	KEYWORD2
+resumeRefreshing	KEYWORD2
+
+setDigitValue	KEYWORD2
+setPointShow	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+SSI_DIGIT_ZERO	LITERAL1
+SSI_DIGIT_ONE	LITERAL1
+SSI_DIGIT_TWO	LITERAL1
+SSI_DIGIT_THREE	LITERAL1
+SSI_DIGIT_FOUR	LITERAL1
+SSI_DIGIT_FIVE	LITERAL1
+SSI_DIGIT_SIX	LITERAL1
+SSI_DIGIT_SEVEN	LITERAL1
+SSI_DIGIT_EIGHT	LITERAL1
+SSI_DIGIT_NINE	LITERAL1
+
+SSI_LETTER_A	LITERAL1
+SSI_LETTER_B	LITERAL1
+SSI_LETTER_C	LITERAL1
+SSI_LETTER_D	LITERAL1
+SSI_LETTER_E	LITERAL1
+SSI_LETTER_F	LITERAL1
+SSI_LETTER_H	LITERAL1
+SSI_LETTER_I	LITERAL1
+SSI_LETTER_J	LITERAL1
+SSI_LETTER_L	LITERAL1
+SSI_LETTER_N	LITERAL1
+SSI_LETTER_O	LITERAL1
+SSI_LETTER_P	LITERAL1
+SSI_LETTER_S	LITERAL1
+SSI_LETTER_U	LITERAL1
+SSI_LETTER_V	LITERAL1
+SSI_LETTER_Y	LITERAL1
+
+SSI_SYMBOLS_MINUS	LITERAL1
+SSI_ADDITIVE_DOTPOINT	LITERAL1

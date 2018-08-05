@@ -1,0 +1,18 @@
+HandledEventTimer	KEYWORD1
+processStep	KEYWORD2
+processStepOptimized	KEYWORD2
+processMcsStep
+stop	KEYWORD2
+start	KEYWORD2
+createEvent	KEYWORD2
+reset KEYWORD2
+setEventActive KEYWORD2
+isEventActive KEYWORD2
+isEnabled	KEYWORD2
+setEventInterval	KEYWORD2
+getEventState KEYWORD2
+resetEvent KEYWORD2
+createRepeatedEvent	KEYWORD2
+setRepeatability	KEYWORD2
+setEventActive	KEYWORD2
+processHandlers	KEYWORD2

@@ -1,0 +1,22 @@
+#######################################
+# Syntax Coloring Map for Voltmeter
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Voltmeter	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+setDividerParams	KEYWORD2
+setFilterSamplesCount	KEYWORD2
+getVoltage	KEYWORD2
+processMeasurement	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################

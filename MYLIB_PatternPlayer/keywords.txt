@@ -1,0 +1,9 @@
+PatternPlayer	KEYWORD1
+SignalPattern	KEYWORD1
+play	KEYWORD2
+stop	KEYWORD2
+pause	KEYWORD2
+processStep	KEYWORD2
+addStep	KEYWORD2
+getCountOfSteps	KEYWORD2
+

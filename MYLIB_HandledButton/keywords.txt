@@ -1,0 +1,32 @@
+#######################################
+# Syntax Coloring Map for HandledButton
+# (formerly HandledButton)
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+HandledButton	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+processStep	KEYWORD2
+processHandlers	KEYWORD2
+attachHandlerToPushDown	KEYWORD2
+attachHandlerToPullUp	KEYWORD2
+attachHandlerToChange	KEYWORD2
+getTimeInCurrentState	KEYWORD2
+getTimeInLastState		KEYWORD2
+isPressed	KEYWORD2
+isClicked	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+BTN_ACTIVE_LOW	LITERAL1
+BTN_ACTIVE_HIGH	LITERAL1
+BTN_DEFAULT_HOLD_TIME	LITERAL1
+BTN_ACTIVE_HIGH_INVERTED	LITERAL1
