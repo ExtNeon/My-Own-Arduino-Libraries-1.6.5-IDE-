@@ -14,7 +14,6 @@
 		* Необязательный параметр - сопротивление верхнего резистора делителя
 		* Необязательный параметр - сопротивление нижнего резистора делителя
 		* Необязательный параметр - количество выборок для стабилизации/фильтрации значений
-		* Необязательный параметр - пороговый разброс между выборками. Если 0 - то будет искать одинаковые
 
 	Если при создании указать только пин, вольтметр будет измерять текущее фактическое напряжение на указанном выводе, используя в качестве опорного напряжения 5 вольт.
 	Если дополнительно указать и опорное напряжение, то результат будет рассчитываться исходя из него.
@@ -46,8 +45,8 @@
 	Примечание: при использовании более высокой тактовой частоты, точность АЦП будет уменьшаться!
 	
 	Для проведения измерений напряжения большего, чем опорное, необходимо сделать резистивный делитель, а в конструкторе вводятся параметры верхнего и нижнего резистора.
-	Можно дополнительно изменить количество выборок. Если необходимо отключить фильтрацию - укажите 1. В дополнение, можно изменить пороговый разброс при фильтрации.
-	Также, изменение количества выборок и разброса возможно методом setFilterSamplesCount(byte countOfSamples, byte filterRange). 
+	Можно дополнительно изменить количество выборок. Если необходимо отключить фильтрацию - укажите 1.
+	Также, изменение количества выборок и разброса возможно методом setFilterSamplesCount(byte countOfSamples). 
 	
 	Для того, чтобы узнать верхнюю границу вольтметра с определёнными параметрами, используйте эту формулу:
 	|-------------------------------|
@@ -61,31 +60,6 @@
 
 #include "Arduino.h"
 #include "Voltmeter.h"
-
-#ifndef CyberLib_H
-
-//**************Поиск макс повторяющегося элемента в массиве****************************
-uint16_t find_similar(uint16_t *buf, uint8_t size_buff, uint8_t range) 
-{
- uint8_t maxcomp=0; //счётчик максимального колличества совпадений
- uint16_t mcn=0;	//максимально часто встречающийся элемент массива
- uint16_t comp;	//временная переменная
- range++;	//допустимое отклонение
-
-	for (uint8_t i=0; i<size_buff; i++) 
-	{
-		comp=buf[i];	//кладем элемент массива в comp
-		uint8_t n=0;	//счётчик совпадении
-		for (uint8_t j=0; j<size_buff; j++)	{ if (buf[j]>comp-range && buf[j]<comp+range) n++;} // ищем повторения элемента comp в массиве buf	
-		if (n > maxcomp) //если число повторов больше чем было найдено ранее
-		{
-			maxcomp=n; //сохраняем счетяик повторов
-			mcn=comp; //сохраняем повторяемый элемент
-		}		
-	}
- return mcn;
-}
-#endif
 
 void Voltmeter::enableREFcalibrationPass(byte amountOfPasses) {
 	_EXP_DEV_ENABLE_CALIBRATION_PASS_AMNT = amountOfPasses;
@@ -113,9 +87,9 @@ bool Voltmeter::isADCReadInProcess() {
 	return ADCSRA & (1 << ADSC);
 }
 
-Voltmeter::Voltmeter(byte measurement_Pin, float ctrl_ref_voltage, float rdiv_TopResistance, float rdiv_BottomResistance, byte filterCountOfSamples, byte filterRange) {
+Voltmeter::Voltmeter(byte measurement_Pin, float ctrl_ref_voltage, float rdiv_TopResistance, float rdiv_BottomResistance, byte filterCountOfSamples) {
 	setDividerParams(rdiv_TopResistance, rdiv_BottomResistance, ctrl_ref_voltage);
-	setFilterSamplesCount(filterCountOfSamples, filterRange);
+	setFilterSamplesCount(filterCountOfSamples);
 	byte inputModeByte = B11111110; //14 pin input mode
 	byte targetBit = measurement_Pin - 14; //Which bit is need to turn to 0
 	while (targetBit-- > 0) { //Shifting bitmask
@@ -140,10 +114,8 @@ void Voltmeter::setDividerParams(float rdiv_TopResistance, float rdiv_BottomResi
 	dev_transferCoeff = (ctrl_ref_voltage / 1024.) / (rdiv_BottomResistance / (rdiv_TopResistance + rdiv_BottomResistance));
 }
 
-void Voltmeter::setFilterSamplesCount(byte countOfSamples, byte filterRange) {
-	dev_maxFilterSamplesCount = countOfSamples;
-	_filterRange = filterRange;
-	dev_maxFilterSamplesCount = dev_maxFilterSamplesCount < 1 ? 1 : dev_maxFilterSamplesCount; //Не допускаем подобных вещей. Хотя...
+void Voltmeter::setFilterSamplesCount(byte countOfSamples) {
+	dev_maxFilterSamplesCount = countOfSamples < 1 ? 1 : countOfSamples;
 	samples = realloc(samples, dev_maxFilterSamplesCount * sizeof(word));
 	for (byte i = 0; i < dev_maxFilterSamplesCount; i++) {
 		samples[i] = 0;
@@ -160,9 +132,17 @@ void Voltmeter::processMeasurement() {
 	dev_changed = true;
 }
 
+word Voltmeter::averageFromSamples() {
+	float sumOfSamples = 0;
+	for (byte i = 0; i < dev_maxFilterSamplesCount; i++) {
+		sumOfSamples += samples[i];
+	}
+	return sumOfSamples / (float) dev_maxFilterSamplesCount;
+}
+
 float Voltmeter::getVoltage() {
 	if (dev_changed) {
-		dev_lastResult = dev_maxFilterSamplesCount > 1 ? find_similar(samples, dev_maxFilterSamplesCount, _filterRange) : samples[0];
+		dev_lastResult = dev_maxFilterSamplesCount > 1 ? (dev_lastResult + averageFromSamples()) / 2 : samples[0];
 		dev_changed = false;
 	}
 	return dev_lastResult * dev_transferCoeff;

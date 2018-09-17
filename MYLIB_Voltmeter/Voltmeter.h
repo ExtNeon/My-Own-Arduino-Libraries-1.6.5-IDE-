@@ -14,7 +14,6 @@
 		* Необязательный параметр - сопротивление верхнего резистора делителя
 		* Необязательный параметр - сопротивление нижнего резистора делителя
 		* Необязательный параметр - количество выборок для стабилизации/фильтрации значений
-		* Необязательный параметр - пороговый разброс между выборками. Если 0 - то будет искать одинаковые
 
 	Если при создании указать только пин, вольтметр будет измерять текущее фактическое напряжение на указанном выводе, используя в качестве опорного напряжения 5 вольт.
 	Если дополнительно указать и опорное напряжение, то результат будет рассчитываться исходя из него.
@@ -46,8 +45,8 @@
 	Примечание: при использовании более высокой тактовой частоты, точность АЦП будет уменьшаться!
 	
 	Для проведения измерений напряжения большего, чем опорное, необходимо сделать резистивный делитель, а в конструкторе вводятся параметры верхнего и нижнего резистора.
-	Можно дополнительно изменить количество выборок. Если необходимо отключить фильтрацию - укажите 1. В дополнение, можно изменить пороговый разброс при фильтрации.
-	Также, изменение количества выборок и разброса возможно методом setFilterSamplesCount(byte countOfSamples, byte filterRange). 
+	Можно дополнительно изменить количество выборок. Если необходимо отключить фильтрацию - укажите 1.
+	Также, изменение количества выборок и разброса возможно методом setFilterSamplesCount(byte countOfSamples). 
 	
 	Для того, чтобы узнать верхнюю границу вольтметра с определёнными параметрами, используйте эту формулу:
 	|-------------------------------|
@@ -81,9 +80,9 @@
 
 class Voltmeter {
 	public:
-		Voltmeter(byte measurement_Pin, float ctrl_ref_voltage = 5., float rdiv_TopResistance = 0, float rdiv_BottomResistance = 1, byte filterCountOfSamples = 3, byte filterRange = 12);
+		Voltmeter(byte measurement_Pin, float ctrl_ref_voltage = 5., float rdiv_TopResistance = 0, float rdiv_BottomResistance = 1, byte filterCountOfSamples = 3);
 		void setDividerParams(float rdiv_TopResistance, float rdiv_BottomResistance, float ctrl_ref_voltage);
-		void setFilterSamplesCount(byte countOfSamples, byte filterRange);
+		void setFilterSamplesCount(byte countOfSamples);
 		float getVoltage();
 		void processMeasurement();
 		void set_CTRL_STAT_REG_VAL(byte new_ADCSRA_val);
@@ -92,6 +91,7 @@ class Voltmeter {
 		void AnReadStart();
 		uint16_t AnReadEnd();
 		boolean isADCReadInProcess();
+		word averageFromSamples();
 		byte _pin;
 		//short *dev_vlmSumValue;
 		byte dev_maxFilterSamplesCount; //Максимальное количество сложений для усреднения
@@ -101,7 +101,7 @@ class Voltmeter {
 		double dev_transferCoeff;
 		boolean dev_changed = true;
 		float dev_lastResult;
-		byte _filterRange;
+		//byte _filterRange;
 		byte dev_ctrl_stat_reg = ADC_RATE_250KHz; 
 		byte _EXP_DEV_ENABLE_CALIBRATION_PASS_AMNT = 0;
 		

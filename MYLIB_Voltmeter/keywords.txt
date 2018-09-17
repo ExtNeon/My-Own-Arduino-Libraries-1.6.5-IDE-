@@ -12,11 +12,21 @@ Voltmeter	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-setDividerParams	KEYWORD2
-setFilterSamplesCount	KEYWORD2
-getVoltage	KEYWORD2
-processMeasurement	KEYWORD2
+setDividerParams            KEYWORD2
+setFilterSamplesCount       KEYWORD2
+getVoltage                  KEYWORD2
+processMeasurement          KEYWORD2
+set_CTRL_STAT_REG_VAL       KEYWORD2
+enableREFcalibrationPass    KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
+
+ADC_RATE_125KHz LITERAL1
+ADC_RATE_250KHz LITERAL1
+ADC_RATE_500KHz LITERAL1
+ADC_RATE_1MHz   LITERAL1
+ADC_RATE_2MHz   LITERAL1
+ADC_RATE_4MHz   LITERAL1
+ADC_RATE_8MHz   LITERAL1
